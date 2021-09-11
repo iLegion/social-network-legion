@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -17,6 +19,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string remember_token
  * @property Carbon created_at
  * @property Carbon updated_at
+ *
+ * @property-read Collection friends
  */
 class User extends Authenticatable
 {
@@ -45,4 +49,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function friends(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'friend_user',
+            'user_id',
+            'friend_id'
+        );
+    }
 }

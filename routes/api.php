@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,12 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'users'], function () {
-        Route::get('me', [UserController::class, 'me']);
+        Route::get('me', [UserController::class, 'getMe']);
         Route::get('{user}', [UserController::class, 'show']);
+    });
+
+    Route::group(['prefix' => 'friends'], function () {
+        Route::get('my', [FriendController::class, 'getMyFriends']);
+        Route::get('{user}', [FriendController::class, 'getFriends']);
     });
 });

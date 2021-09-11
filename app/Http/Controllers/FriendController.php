@@ -3,22 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InternalServerErrorException;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UserCollection;
 use App\Models\User;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 
-class UserController extends Controller
+class FriendController extends Controller
 {
     /**
      * @throws AuthorizationException|InternalServerErrorException
      */
-    public function getMe(): UserResource
+    public function getMyFriends(): UserCollection
     {
-        $this->authorize('me', User::class);
+        $this->authorize('getMyFriends', User::class);
 
         try {
-            return new UserResource($this->user);
+            return new UserCollection(
+                $this->user
+                    ->friends()
+                    ->paginate(30)
+            );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }
@@ -27,12 +31,15 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException|InternalServerErrorException
      */
-    public function show(User $user): UserResource
+    public function getFriends(User $user): UserCollection
     {
-        $this->authorize('show', $user);
+        $this->authorize('getFriends', $user);
 
         try {
-            return new UserResource($user);
+            return new UserCollection(
+                $user->friends()
+                    ->paginate(30)
+            );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

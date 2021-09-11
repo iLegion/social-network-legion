@@ -2,17 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Traits\Policies\User\FriendPolicyTrait;
+use App\Traits\Policies\User\UserPolicyTrait;
 
 class UserPolicy
 {
-    public function me(): bool
-    {
-        return true;
-    }
-
-    public function show(User $user, User $model): bool
-    {
-        return $user->id === $model->id;
-    }
+    use UserPolicyTrait, FriendPolicyTrait;
 }

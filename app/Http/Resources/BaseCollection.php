@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
@@ -12,7 +13,7 @@ abstract class BaseCollection extends ResourceCollection
 {
     private bool $withPagination;
 
-    public function __construct(Paginator $resource, $withPagination = true)
+    public function __construct(Paginator|EloquentCollection $resource, $withPagination = true)
     {
         parent::__construct($resource);
 
@@ -28,7 +29,6 @@ abstract class BaseCollection extends ResourceCollection
         $response->setContent(json_encode($jsonResponse));
     }
 
-    #[Pure]
     public function toArray($request): Collection|Request|array
     {
         if ($this->withPagination) {
@@ -37,7 +37,7 @@ abstract class BaseCollection extends ResourceCollection
                 'pagination' => new PaginationResource($this)
             ];
         } else {
-            return $request;
+            return $request->toArray();
         }
     }
 }

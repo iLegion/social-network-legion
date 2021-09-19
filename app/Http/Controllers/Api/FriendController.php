@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Exceptions\InternalServerErrorException;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserCollection;
 use App\Models\User;
 use Exception;

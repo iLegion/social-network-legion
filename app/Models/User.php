@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\Models\User\Friendable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,11 +23,14 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon created_at
  * @property Carbon updated_at
  *
+ * @property-read Collection roles
  * @property-read Collection friends
+ *
+ * @method static User|Builder query()
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Friendable;
 
     /**
      * @var string[]
@@ -56,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(Post::class, 'author_id', 'id');
     }
 
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function friends(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -64,5 +74,15 @@ class User extends Authenticatable
             'user_id',
             'friend_id'
         );
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('id', 1)->exists();
+    }
+
+    public function isUser(): bool
+    {
+        return $this->roles()->where('id', 2)->exists();
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Exceptions\InternalServerErrorException;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Exception;
@@ -18,7 +19,7 @@ class UserController extends Controller
         $this->authorize('me', User::class);
 
         try {
-            return new UserResource($this->user);
+            return new UserResource($this->user->load(['roles']));
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

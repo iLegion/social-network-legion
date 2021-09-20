@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\PostStoreRequest;
+use App\Http\Requests\Post\PostUpdateRequest;
 use App\Http\Resources\Post\PostCollection;
+use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use App\Services\Post\PostService;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
@@ -27,47 +31,66 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @throws InternalServerErrorException
      */
-    public function store(Request $request)
+    public function store(PostStoreRequest $request): PostResource
     {
-        //
+        try {
+            $post = (new PostService())->create(
+                collect($request->validated()),
+                $this->user
+            );
+
+            return new PostResource($post);
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @throws InternalServerErrorException
      */
-    public function show(Post $post)
+    public function show(Post $post): PostResource
     {
-        //
+        try {
+            return new PostResource($post);
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @throws AuthorizationException|InternalServerErrorException
      */
-    public function update(Request $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post): PostResource
     {
-        //
+        $this->authorize('update', $post);
+
+        try {
+            $post = (new PostService())->update(
+                $post,
+                 collect($request->validated())
+            );
+
+            return new PostResource($post);
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @throws AuthorizationException|InternalServerErrorException
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): JsonResponse
     {
-        //
+        $this->authorize('destroy', $post);
+
+        try {
+            (new PostService())->delete($post);
+
+            return response()->json([], 204);
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
     }
 }

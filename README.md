@@ -9,3 +9,10 @@
 
 # Links
 1. Horizon: {url}/horizon/dashboard
+2. Telescope {url}/telescope/requests
+
+# Start
+1. Copy .env.example
+
+# Needs
+1. Redis

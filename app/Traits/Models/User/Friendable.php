@@ -2,7 +2,7 @@
 
 namespace App\Traits\Models\User;
 
-use App\Models\User;
+use App\Models\User\User;
 
 /**
  * @mixin User

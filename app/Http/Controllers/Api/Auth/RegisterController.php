@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Models\User;
+use App\Models\User\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;

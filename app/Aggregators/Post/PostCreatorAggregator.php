@@ -3,7 +3,7 @@
 namespace App\Aggregators\Post;
 
 use App\Models\Post;
-use App\Models\User;
+use App\Models\User\User;
 
 class PostCreatorAggregator
 {

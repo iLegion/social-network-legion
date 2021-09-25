@@ -2,7 +2,7 @@
 
 namespace App\Traits\Policies\User;
 
-use App\Models\User;
+use App\Models\User\User;
 
 trait UserPolicyTrait
 {

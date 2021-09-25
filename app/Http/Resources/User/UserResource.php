@@ -3,8 +3,9 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\BaseResource;
+use App\Http\Resources\PrivacySetting\PrivacySettingResource;
 use App\Http\Resources\Role\RoleCollection;
-use App\Models\User;
+use App\Models\User\User;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -18,7 +19,8 @@ class UserResource extends BaseResource
         'email' => "string",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon",
-        'roles' => "\Illuminate\Database\Eloquent\Collection",
+        'roles' => "RoleCollection",
+        'privacySettings' => "PrivacySettingResource",
     ])]
     public function toArray($request): array
     {
@@ -31,7 +33,15 @@ class UserResource extends BaseResource
         ];
 
         if ($this->relationLoaded('roles')) {
-            $collection['roles'] = new RoleCollection($this->roles, false);
+            $collection['roles'] = $this->roles()->count()
+                ? new RoleCollection($this->roles, false)
+                : [];
+        }
+
+        if ($this->relationLoaded('privacySettings')) {
+            $collection['privacySettings'] = $this->privacySettings
+                ? new PrivacySettingResource($this->privacySettings)
+                : null;
         }
 
         return $collection;

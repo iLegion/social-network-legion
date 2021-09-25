@@ -6,7 +6,7 @@ use App\Aggregators\Post\PostCreatorAggregator;
 use App\Aggregators\Post\PostQueryBuilderAggregator;
 use App\Aggregators\Post\PostUpdaterAggregator;
 use App\Models\Post;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 

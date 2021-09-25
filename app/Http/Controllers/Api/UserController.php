@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
-use App\Models\User;
+use App\Models\User\User;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 

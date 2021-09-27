@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\FriendController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ViewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,5 +49,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['throttle:updatePost']);
 
         Route::delete('{post}', [PostController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'views'], function () {
+        Route::post('', [ViewController::class, 'store']);
     });
 });

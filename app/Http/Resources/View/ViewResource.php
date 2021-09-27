@@ -1,39 +1,33 @@
 <?php
 
-namespace App\Http\Resources\Post;
+namespace App\Http\Resources\View;
 
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\User\UserResource;
-use App\Models\Post;
+use App\Models\View;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * @mixin Post
+ * @mixin View
  */
-class PostResource extends BaseResource
+class ViewResource extends BaseResource
 {
     #[Pure]
     #[ArrayShape([
         'id' => "int",
-        'title' => "string",
-        'text' => "string",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon",
-        'author' => "UserResource",
-        'viewsCount' => "int",
+        'user' => "\App\Http\Resources\User\UserResource"
     ])]
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'text' => $this->text,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
 
-            'author' => new UserResource($this->author),
-            'viewsCount' => $this->viewsCount
+            'user' => new UserResource($this->user)
         ];
     }
 }

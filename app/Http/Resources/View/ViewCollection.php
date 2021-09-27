@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\View;
 
 use App\Http\Resources\BaseCollection;
 
-class UserCollection extends BaseCollection
+class ViewCollection extends BaseCollection
 {
     public function toArray($request): array
     {

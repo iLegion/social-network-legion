@@ -3,7 +3,6 @@
 namespace App\Models\User;
 
 use App\Models\Post;
-use App\Models\Role;
 use App\Traits\Models\User\Friendable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

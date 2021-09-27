@@ -3,24 +3,29 @@
 namespace App\Models;
 
 use App\Models\User\User;
+use App\Traits\Models\Viewable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int id
- * @property int|null author_id
- * @property string title
- * @property string text
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @property int $id
+ * @property int|null $author_id
+ * @property string $title
+ * @property string $text
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
- * @property-read User|null author
+ * @property-read User|null $author
+ * @property-read View[]|Collection $views
+ *
+ * @property-read int $viewsCount
  */
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Viewable;
 
     /**
      * @var string[]

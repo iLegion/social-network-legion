@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Role;
 
 use App\Http\Resources\BaseResource;
-use App\Models\Role;
+use App\Models\User\Role;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**

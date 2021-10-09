@@ -22,6 +22,7 @@ class PostResource extends BaseResource
         'updatedAt' => "\Illuminate\Support\Carbon",
         'author' => "UserResource",
         'viewsCount' => "int",
+        'likesCount' => "int",
     ])]
     public function toArray($request): array
     {
@@ -33,7 +34,8 @@ class PostResource extends BaseResource
             'updatedAt' => $this->updated_at,
 
             'author' => new UserResource($this->author),
-            'viewsCount' => $this->viewsCount
+            'viewsCount' => $this->viewsCount,
+            'likesCount' => $this->likesCount
         ];
     }
 }

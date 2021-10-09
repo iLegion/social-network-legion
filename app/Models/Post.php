@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User\User;
+use App\Traits\Models\Likeable;
 use App\Traits\Models\Viewable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,10 +23,11 @@ use Illuminate\Support\Carbon;
  * @property-read View[]|Collection $views
  *
  * @property-read int $viewsCount
+ * @property-read int $likesCount
  */
 class Post extends Model
 {
-    use HasFactory, Viewable;
+    use HasFactory, Viewable, Likeable;
 
     /**
      * @var string[]

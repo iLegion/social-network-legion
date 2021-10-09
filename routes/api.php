@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\FriendController;
+use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ViewController;
@@ -53,5 +54,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'views'], function () {
         Route::post('', [ViewController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'likes'], function () {
+        Route::post('', [LikeController::class, 'store']);
+
+        Route::delete('', [LikeController::class, 'delete']);
     });
 });

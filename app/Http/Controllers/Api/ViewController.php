@@ -11,9 +11,10 @@ class ViewController extends Controller
 {
     public function store(ViewStoreRequest $request, ViewService $viewService): JsonResponse
     {
-        $request = $request->validated();
+        $id = $request->post('id');
+        $type = $request->post('type');
 
-        $model = $viewService->getModel($request['id'], $request['type']);
+        $model = $viewService->getModel($id, $type);
 
         $model->addView($this->user);
 

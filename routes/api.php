@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\FriendController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
@@ -60,5 +61,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('', [LikeController::class, 'store']);
 
         Route::delete('', [LikeController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'comments'], function () {
+        Route::get('', [CommentController::class, 'index']);
+
+        Route::post('', [CommentController::class, 'store']);
+
+        Route::delete('', [CommentController::class, 'delete']);
     });
 });

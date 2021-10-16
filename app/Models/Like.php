@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $user_id
  * @property int $likeable_id
- * @property int $likeable_type
+ * @property string $likeable_type
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *

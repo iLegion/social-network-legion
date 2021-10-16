@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User\User;
+use App\Traits\Models\Commentable;
 use App\Traits\Models\Likeable;
 use App\Traits\Models\Viewable;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,7 +28,7 @@ use Illuminate\Support\Carbon;
  */
 class Post extends Model
 {
-    use HasFactory, Viewable, Likeable;
+    use HasFactory, Viewable, Likeable, Commentable;
 
     /**
      * @var string[]

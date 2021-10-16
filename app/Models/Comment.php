@@ -16,23 +16,24 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int $user_id
- * @property int $viewable_id
- * @property string $viewable_type
+ * @property int $commentable_id
+ * @property string $commentable_type
+ * @property string $text
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property-read Model|Eloquent $viewable
+ * @property-read Model|Eloquent $commentable
  * @property-read User $user
  *
- * @method static Builder|View newModelQuery()
- * @method static Builder|View newQuery()
- * @method static Builder|View query()
+ * @method static Builder|Comment newModelQuery()
+ * @method static Builder|Comment newQuery()
+ * @method static Builder|Comment query()
  */
-class View extends Model
+class Comment extends Model
 {
     use HasFactory;
 
-    public function viewable(): MorphTo
+    public function commentable(): MorphTo
     {
         return $this->morphTo();
     }

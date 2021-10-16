@@ -13,7 +13,6 @@ class ViewController extends Controller
     {
         $id = $request->post('id');
         $type = $request->post('type');
-
         $model = $viewService->getModel($id, $type);
 
         $model->addView($this->user);

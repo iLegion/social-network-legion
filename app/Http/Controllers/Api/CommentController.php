@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\CommentRequest;
 use App\Http\Requests\Comment\CommentStoreRequest;
 use App\Http\Resources\Comment\CommentCollection;
+use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment;
 use App\Services\CommentService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use JetBrains\PhpStorm\Pure;
 
 class CommentController extends Controller
 {
@@ -44,24 +46,12 @@ class CommentController extends Controller
         return response()->json([], 204);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
+    #[Pure]
+    public function show(Comment $comment): CommentResource
     {
-        //
+        return new CommentResource($comment);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Comment $comment)
     {
         //

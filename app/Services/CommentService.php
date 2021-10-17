@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class CommentService
 {
@@ -24,7 +25,7 @@ class CommentService
             : throw new Exception("Model '$type' is not commentable");
     }
 
-    public function getModel(int $id, string $type): Model|null
+    public function getModel(int $id, string $type): Model|Post|null
     {
         /** @var Model $modelName */
         $modelName = self::MODELS[$type];
@@ -32,14 +33,14 @@ class CommentService
         return $modelName::query()->findOrFail($id);
     }
 
-    public function getCommentsByModel(int $id, string $type)
+    public function getCommentsByModel(int $id, string $type): MorphMany
     {
         $model = $this->getModel($id, $type);
 
         return $model->comments();
     }
 
-    public function create(Post $model, User $user, string $text): Comment
+    public function create(Model|Post $model, User $user, string $text): Comment
     {
         $comment = new Comment();
 
@@ -65,7 +66,7 @@ class CommentService
     /**
      * @throws Exception
      */
-    public function delete(Post $model, User $user): void
+    public function delete(Model|Post $model, User $user): void
     {
         $model->comments()->where('user_id', $user->id)->delete();
     }

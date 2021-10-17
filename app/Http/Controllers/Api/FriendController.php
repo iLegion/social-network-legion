@@ -12,7 +12,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 class FriendController extends Controller
 {
     /**
-     * @throws AuthorizationException|InternalServerErrorException
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
      */
     public function getMyFriends(): UserCollection
     {
@@ -30,7 +31,8 @@ class FriendController extends Controller
     }
 
     /**
-     * @throws AuthorizationException|InternalServerErrorException
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
      */
     public function getFriends(User $user): UserCollection
     {
@@ -38,7 +40,8 @@ class FriendController extends Controller
 
         try {
             return new UserCollection(
-                $user->friends()
+                $user
+                    ->friends()
                     ->paginate(30)
             );
         } catch (Exception $e) {

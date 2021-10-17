@@ -19,12 +19,10 @@ class LikeService
      */
     public function isLikeableModel(string $type): bool
     {
-        return array_key_exists($type, self::MODELS)
-            ? true
-            : throw new Exception("Model '$type' is not viewable");
+        return array_key_exists($type, self::MODELS);
     }
 
-    public function isExists(Model $model, User $user): bool
+    public function isExists(Model|Post $model, User $user): bool
     {
         return Like::query()
             ->where('likeable_id', $model->id)
@@ -33,18 +31,18 @@ class LikeService
             ->exists();
     }
 
-    public function getModel(int $id, string $type): Model|null
+    public function getModel(int $id, string $type): Model|Post
     {
         /** @var Model $modelName */
         $modelName = self::MODELS[$type];
 
-        return $modelName::query()->findOrFail($id);
+        return $modelName::query()->find($id);
     }
 
     /**
      * @throws Exception
      */
-    public function create(Model $model, User $user): Like
+    public function create(Model|Post $model, User $user): Like
     {
         $like = new Like();
 
@@ -60,7 +58,7 @@ class LikeService
     /**
      * @throws Exception
      */
-    public function delete(Model $model, User $user): void
+    public function delete(Model|Post $model, User $user): void
     {
         $model->likes()->where('user_id', $user->id)->delete();
     }

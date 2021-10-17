@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Models\User\User;
+use App\Http\Resources\User\UserResource;
+use App\Services\User\UserService;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
@@ -15,22 +15,16 @@ class RegisterController extends Controller
     /**
      * @throws InternalServerErrorException
      */
-    public function __invoke(RegisterRequest $request): JsonResponse
+    public function __invoke(RegisterRequest $request, UserService $service): UserResource
     {
         DB::beginTransaction();
 
         try {
-            User::query()->create(
-                array_merge(
-                    $request->only(['email', 'name']),
-                    [
-                        'password' => bcrypt($request->input('password'))
-                    ]
-                )
-            );
+            $user = $service->create(collect($request->validated()));
+
             DB::commit();
 
-            return response()->json([], 201);
+            return new UserResource($user);
         } catch (Exception $e) {
             DB::rollBack();
 

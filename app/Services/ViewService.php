@@ -24,7 +24,7 @@ class ViewService
             : throw new Exception("Model '$type' is not viewable");
     }
 
-    public function isExists(Model $model, User $user): bool
+    public function isExists(Model|Post $model, User $user): bool
     {
         return View::query()
             ->where('viewable_id', $model->id)
@@ -33,18 +33,18 @@ class ViewService
             ->exists();
     }
 
-    public function getModel(int $id, string $type): Model|null
+    public function getModel(int $id, string $type): Model|Post
     {
         /** @var Model $modelName */
         $modelName = self::MODELS[$type];
 
-        return $modelName::query()->findOrFail($id);
+        return $modelName::query()->find($id);
     }
 
     /**
      * @throws Exception
      */
-    public function create(Model $model, User $user): View
+    public function create(Model|Post $model, User $user): View
     {
         $view = new View();
 

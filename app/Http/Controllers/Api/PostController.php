@@ -22,7 +22,9 @@ class PostController extends Controller
     public function index(): PostCollection
     {
         try {
-            $posts = (new PostService())->getPostsForIndexPage()->paginate(30);
+            $posts = (new PostService())
+                ->getPostsForIndexPage()
+                ->paginate(30);
 
             return new PostCollection($posts);
         } catch (Exception $e) {
@@ -47,11 +49,14 @@ class PostController extends Controller
         }
     }
 
-    /**
+    /**\
+     * @throws AuthorizationException
      * @throws InternalServerErrorException
      */
     public function show(Post $post): PostResource
     {
+        $this->authorize('view', $post);
+
         try {
             return new PostResource($post);
         } catch (Exception $e) {
@@ -60,7 +65,8 @@ class PostController extends Controller
     }
 
     /**
-     * @throws AuthorizationException|InternalServerErrorException
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
      */
     public function update(PostUpdateRequest $request, Post $post): PostResource
     {
@@ -79,7 +85,8 @@ class PostController extends Controller
     }
 
     /**
-     * @throws AuthorizationException|InternalServerErrorException
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
      */
     public function destroy(Post $post): JsonResponse
     {

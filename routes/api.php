@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'comments'], function () {
         Route::get('', [CommentController::class, 'index']);
+        Route::get('{comment}', [CommentController::class, 'show']);
 
         Route::post('', [CommentController::class, 'store']);
 

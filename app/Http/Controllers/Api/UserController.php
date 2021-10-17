@@ -12,7 +12,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 class UserController extends Controller
 {
     /**
-     * @throws AuthorizationException|InternalServerErrorException
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
      */
     public function getMe(): UserResource
     {
@@ -26,7 +27,8 @@ class UserController extends Controller
     }
 
     /**
-     * @throws AuthorizationException|InternalServerErrorException
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
      */
     public function show(User $user): UserResource
     {

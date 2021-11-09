@@ -6,6 +6,7 @@ use App\Http\Resources\BaseResource;
 use App\Http\Resources\PrivacySetting\PrivacySettingResource;
 use App\Http\Resources\Role\RoleCollection;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -17,6 +18,8 @@ class UserResource extends BaseResource
         'id' => "int",
         'name' => "string",
         'email' => "string",
+        'avatar' => "string",
+        'friendsCount' => "int",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon",
         'roles' => "RoleCollection",
@@ -28,6 +31,9 @@ class UserResource extends BaseResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'avatar' => Storage::disk('public')->url($this->avatar),
+            'friendsCount' => $this->friends_count ?? 0,
+            'postsCount' => $this->posts_count ?? 0,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at
         ];
@@ -41,6 +47,16 @@ class UserResource extends BaseResource
         if ($this->relationLoaded('privacySettings')) {
             $collection['privacySettings'] = $this->privacySettings
                 ? new PrivacySettingResource($this->privacySettings)
+                : null;
+        }
+
+        if ($this->relationLoaded('friends')) {
+            $collection['friends'] = $this->friends
+                ? new UserCollection(
+                    $this->friends()
+                        ->withCount(['friends'])
+                        ->paginate(30)
+                )
                 : null;
         }
 

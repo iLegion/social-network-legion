@@ -34,8 +34,8 @@ class PostResource extends BaseResource
             'updatedAt' => $this->updated_at,
 
             'author' => new UserResource($this->author),
-            'viewsCount' => $this->viewsCount,
-            'likesCount' => $this->likesCount
+            'viewsCount' => $this->viewsCount ?? 0,
+            'likesCount' => $this->likesCount ?? 0
         ];
     }
 }

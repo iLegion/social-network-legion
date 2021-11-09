@@ -20,7 +20,11 @@ class UserController extends Controller
         $this->authorize('me', User::class);
 
         try {
-            return new UserResource($this->user->load(['roles']));
+            return new UserResource(
+                $this->user
+                    ->loadCount(['friends'])
+                    ->load(['roles', 'friends'])
+            );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }
@@ -35,7 +39,11 @@ class UserController extends Controller
         $this->authorize('show', $user);
 
         try {
-            return new UserResource($user);
+            return new UserResource(
+                $user
+                    ->loadCount(['friends'])
+                    ->load(['roles', 'friends'])
+            );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

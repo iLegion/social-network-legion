@@ -16,18 +16,20 @@ use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property int id
- * @property string name
- * @property string email
- * @property Carbon email_verified_at
- * @property string password
- * @property string remember_token
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property Carbon $email_verified_at
+ * @property string $password
+ * @property string $avatar
+ * @property string $remember_token
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
- * @property-read Collection roles
- * @property-read Collection friends
- * @property-read PrivacySetting privacySettings
+ * @property-read Collection $roles
+ * @property-read PrivacySetting $privacySettings
+ *
+ * @property-read int $posts_count
  *
  * @method static User|Builder query()
  */
@@ -59,8 +61,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $with = [
         'privacySettings'
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $attributes = [
+        'avatar' => 'core/user.svg'
     ];
 
     public function posts(): HasMany

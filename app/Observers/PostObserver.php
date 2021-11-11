@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Post;
 use App\Services\LikeService;
 use App\Services\LoggerService;
+use App\Services\ViewService;
 use Exception;
 
 class PostObserver
@@ -25,6 +26,7 @@ class PostObserver
     {
         try {
             (new LikeService())->delete($post, $post->author);
+            (new ViewService())->delete($post, $post->author);
         } catch (Exception $e) {
             app(LoggerService::class)->info(
                 Post::class,

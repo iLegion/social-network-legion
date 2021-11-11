@@ -13,6 +13,7 @@ use App\Services\Post\PostService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -92,11 +93,17 @@ class PostController extends Controller
     {
         $this->authorize('destroy', $post);
 
+        DB::beginTransaction();
+
         try {
             (new PostService())->delete($post);
 
+            DB::commit();
+
             return response()->json([], 204);
         } catch (Exception $e) {
+            DB::rollBack();
+
             throw new InternalServerErrorException($e->getMessage(), $e);
         }
     }

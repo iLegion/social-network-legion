@@ -56,4 +56,12 @@ class ViewService
 
         return $view;
     }
+
+    /**
+     * @throws Exception
+     */
+    public function delete(Model|Post $model, User $user): void
+    {
+        $model->views()->where('user_id', $user->id)->delete();
+    }
 }

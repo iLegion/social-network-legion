@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\LoggerService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Horizon\HorizonServiceProvider::class);
             $this->app->register(HorizonServiceProvider::class);
         }
+
+        $this->app->singleton(LoggerService::class);
     }
 
     /**

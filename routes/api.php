@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\Dialog\DialogController;
+use App\Http\Controllers\Api\Dialog\DialogMessageController;
 use App\Http\Controllers\Api\FriendController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
@@ -70,5 +72,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('', [CommentController::class, 'store']);
 
         Route::delete('', [CommentController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'dialogs'], function () {
+        Route::get('', [DialogController::class, 'index']);
+        Route::post('', [DialogController::class, 'store']);
+        Route::delete('{dialog}', [DialogController::class, 'delete']);
+
+        Route::group(['prefix' => '{dialog}/messages'], function () {
+            Route::get('', [DialogMessageController::class, 'index']);
+            Route::post('', [DialogMessageController::class, 'store']);
+        });
     });
 });

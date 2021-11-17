@@ -2,6 +2,8 @@
 
 namespace App\Models\User;
 
+use App\Models\Dialog\Dialog;
+use App\Models\Dialog\DialogMessage;
 use App\Models\Post;
 use App\Traits\Models\User\Friendable;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,8 +28,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property-read Collection $roles
  * @property-read PrivacySetting $privacySettings
+ * @property-read Collection<int, Role> $roles
+ * @property-read Collection<int, DialogMessage> $dialogMessages
+ * @property-read Collection<int, Dialog> $dialogsOwner
  *
  * @property-read int $posts_count
  *
@@ -80,6 +84,16 @@ class User extends Authenticatable
         return $this->hasMany(Post::class, 'author_id', 'id');
     }
 
+    public function dialogMessages(): HasMany
+    {
+        return $this->hasMany(DialogMessage::class);
+    }
+
+    public function dialogsOwner(): HasMany
+    {
+        return $this->hasMany(Dialog::class);
+    }
+
     public function privacySettings(): HasOne
     {
         return $this->hasOne(PrivacySetting::class);
@@ -88,6 +102,11 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function dialogs(): BelongsToMany
+    {
+        return $this->belongsToMany(Dialog::class);
     }
 
     public function friends(): BelongsToMany

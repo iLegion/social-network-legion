@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Post;
+namespace App\Http\Resources\Dialog;
 
 use App\Http\Resources\BaseCollection;
-use JetBrains\PhpStorm\Pure;
 
-class PostCollection extends BaseCollection
+class DialogCollection extends BaseCollection
 {
     public function toArray($request): array
     {

@@ -15,6 +15,7 @@ class DialogMessageResource extends BaseResource
         'id' => "int",
         'text' => "string",
         'userName' => "string",
+        'readAt' => "\Illuminate\Support\Carbon",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon"
     ])]
@@ -24,6 +25,7 @@ class DialogMessageResource extends BaseResource
             'id' => $this->id,
             'text' => $this->text,
             'userName' => $this->user->name,
+            'readAt' => $this->read_at,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

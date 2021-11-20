@@ -8,8 +8,10 @@ use App\Http\Requests\DialogMessage\DialogMessageStoreRequest;
 use App\Http\Resources\DialogMessage\DialogMessageCollection;
 use App\Http\Resources\DialogMessage\DialogMessageResource;
 use App\Models\Dialog\Dialog;
+use App\Models\Dialog\DialogMessage;
 use App\Services\Dialog\DialogMessage\DialogMessageService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class DialogMessageController extends Controller
 {
@@ -42,6 +44,27 @@ class DialogMessageController extends Controller
             );
 
             return new DialogMessageResource($dialogMessage);
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * @throws InternalServerErrorException
+     */
+    public function markAsRead(string $dialogMessageId): JsonResponse
+    {
+        try {
+            $dialogMessage = DialogMessage::query()->findOrFail($dialogMessageId);
+//            $dialogMessage = (new DialogMessageService())->update(
+//                $dialogMessage,
+//                collect([
+//                    'readAt' => now()
+//                ])
+//            );
+            $dialogMessage->dialog->messages()->update(['read_at' => now()]);
+
+            return response()->json([], 204);
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

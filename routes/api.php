@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::group(['prefix' => '{dialog}/messages'], function () {
             Route::get('', [DialogMessageController::class, 'index']);
             Route::post('', [DialogMessageController::class, 'store']);
+            Route::post('{dialogMessage}/read', [DialogMessageController::class, 'markAsRead']);
         });
     });
 });

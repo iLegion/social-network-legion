@@ -18,6 +18,7 @@ class CreateDialogMessagesTable extends Migration
             $table->unsignedBigInteger('dialog_id');
             $table->unsignedBigInteger('user_id');
             $table->text('text');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
 
             $table->foreign('dialog_id')

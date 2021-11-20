@@ -14,6 +14,7 @@ class DialogMessageResource extends BaseResource
     #[ArrayShape([
         'id' => "int",
         'text' => "string",
+        'userName' => "string",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon"
     ])]
@@ -22,6 +23,7 @@ class DialogMessageResource extends BaseResource
         return [
             'id' => $this->id,
             'text' => $this->text,
+            'userName' => $this->user->name,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

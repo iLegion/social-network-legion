@@ -14,7 +14,7 @@ class DialogMessageService
 {
     public function getByDialog(Dialog $dialog): Builder
     {
-        return (new DialogMessageQueryBuilderAggregator())
+        return (new DialogMessageQueryBuilderAggregator(['user']))
             ->byDialog($dialog)
             ->getBuilder();
     }

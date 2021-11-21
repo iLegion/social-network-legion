@@ -6,7 +6,7 @@ use App\Http\Requests\BaseRequest;
 use App\Services\LikeService;
 use JetBrains\PhpStorm\ArrayShape;
 
-class LikeRequest extends BaseRequest
+class LikeStoreRequest extends BaseRequest
 {
     public function authorize(): bool
     {
@@ -28,20 +28,16 @@ class LikeRequest extends BaseRequest
             'id' => [
                 'required',
                 'numeric',
-                function ($attribute, $value, $fail) use ($model) {
-                    if (
-                        $this->has('id')
-                        && $this->has('type')
-                        && !$model
-                    ) {
-                        $fail('The model not exists.');
+                function ($attribute, $value, $fail) {
+                    if (!$this->has('type')) {
+                        $fail('The type not exists.');
                     }
                 },
                 function ($attribute, $value, $fail) use ($service, $model) {
-                    if ($model && !$service->isExists($model, $this->user())) {
-                        $fail('The like not exists.');
+                    if ($model && $service->isExists($model, $this->user())) {
+                        $fail('The like exists.');
                     }
-                }
+                },
             ],
             'type' => [
                 'required',

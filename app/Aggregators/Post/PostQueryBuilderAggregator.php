@@ -9,9 +9,11 @@ class PostQueryBuilderAggregator
 {
     private Builder $builder;
 
-    public function __construct(array $relations = [])
+    public function __construct(array $relations = [], array $withCounts = [])
     {
-        $this->builder = Post::query()->with($relations);
+        $this->builder = Post::query()
+            ->with($relations)
+            ->withCount($withCounts);
     }
 
     public function getBuilder(): Builder

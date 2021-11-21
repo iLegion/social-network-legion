@@ -23,8 +23,9 @@ use Illuminate\Support\Carbon;
  * @property-read User|null $author
  * @property-read View[]|Collection $views
  *
- * @property-read int $viewsCount
- * @property-read int $likesCount
+ * @property-read int $views_count
+ * @property-read int $likes_count
+ * @property-read int $comments_count
  */
 class Post extends Model
 {

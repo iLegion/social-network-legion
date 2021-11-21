@@ -12,6 +12,7 @@ use App\Models\Post;
 use App\Services\Post\PostService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -54,12 +55,12 @@ class PostController extends Controller
      * @throws AuthorizationException
      * @throws InternalServerErrorException
      */
-    public function show(Post $post): PostResource
+    public function show(Builder|Post $post): PostResource
     {
         $this->authorize('view', $post);
 
         try {
-            return new PostResource($post);
+            return new PostResource($post->with(['author'])->withCount(['likes', 'views']));
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

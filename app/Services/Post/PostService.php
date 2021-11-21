@@ -14,7 +14,7 @@ class PostService
 {
     public function getPostsForIndexPage(): Builder
     {
-        return (new PostQueryBuilderAggregator(['author']))
+        return (new PostQueryBuilderAggregator(['author'], ['likes', 'views']))
             ->getBuilder();
     }
 

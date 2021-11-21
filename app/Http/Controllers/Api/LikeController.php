@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Like\LikeRequest;
+use App\Http\Requests\Like\LikeStoreRequest;
 use App\Services\LikeService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +15,7 @@ class LikeController extends Controller
     /**
      * @throws InternalServerErrorException
      */
-    public function store(LikeRequest $request, LikeService $service): JsonResponse
+    public function store(LikeStoreRequest $request, LikeService $service): JsonResponse
     {
         $id = $request->post('id');
         $type = $request->post('type');

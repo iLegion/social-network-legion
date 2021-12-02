@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api\BotMan;
 
 use App\Http\Controllers\Controller;
+use App\Services\BotMan\BotManService;
 use BotMan\BotMan\BotMan;
-use BotMan\BotMan\BotManFactory;
-use BotMan\BotMan\Drivers\DriverManager;
-use BotMan\Drivers\Web\WebDriver;
 
 class BotManController extends Controller
 {
@@ -14,8 +12,10 @@ class BotManController extends Controller
     {
         $botMan = app('botman');
 
-        $botMan->hears('{message}', function (BotMan $botMan, $message) {
-            $botMan->reply('Test');
+        $botMan->hears('(.*)', function (BotMan $botMan, $message) {
+            $botMan->reply(
+                (new BotManService())->hearMessage($message)
+            );
         });
 
         $botMan->listen();

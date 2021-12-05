@@ -22,7 +22,7 @@ class UserController extends Controller
         try {
             return new UserResource(
                 $this->user
-                    ->loadCount(['friends'])
+                    ->loadCount(['posts', 'friends'])
                     ->load(['roles', 'friends'])
             );
         } catch (Exception $e) {
@@ -41,7 +41,7 @@ class UserController extends Controller
         try {
             return new UserResource(
                 $user
-                    ->loadCount(['friends'])
+                    ->loadCount(['posts', 'friends'])
                     ->load(['roles', 'friends'])
             );
         } catch (Exception $e) {

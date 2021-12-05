@@ -35,7 +35,7 @@ class LikeStoreRequest extends BaseRequest
                 },
                 function ($attribute, $value, $fail) use ($service, $model) {
                     if ($model && $service->isExists($model, $this->user())) {
-                        $fail('The like exists.');
+                        $fail('The like is exists.');
                     }
                 },
             ],

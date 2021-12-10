@@ -2,15 +2,19 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
-use JetBrains\PhpStorm\Pure;
 
 abstract class BaseResource extends JsonResource
 {
-    #[Pure]
+    protected User|Authenticatable|null $user;
+
     public function __construct(Model $resource)
     {
         parent::__construct($resource);
+
+        $this->user = auth('sanctum')->user();
     }
 }

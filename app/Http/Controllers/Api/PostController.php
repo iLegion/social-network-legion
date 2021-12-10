@@ -66,7 +66,7 @@ class PostController extends Controller
      * @throws AuthorizationException
      * @throws InternalServerErrorException
      */
-    public function show(Builder|Post $post): PostResource
+    public function show(Post $post): PostResource
     {
         $this->authorize('view', $post);
 

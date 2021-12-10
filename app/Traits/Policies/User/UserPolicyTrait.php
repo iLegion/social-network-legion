@@ -6,6 +6,11 @@ use App\Models\User\User;
 
 trait UserPolicyTrait
 {
+    public function index(): bool
+    {
+        return true;
+    }
+
     public function me(): bool
     {
         return true;

@@ -33,6 +33,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'users'], function () {
+        Route::get('', [UserController::class, 'index']);
         Route::get('me', [UserController::class, 'getMe']);
         Route::get('{user}', [UserController::class, 'show']);
     });
@@ -40,6 +41,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'friends'], function () {
         Route::get('my', [FriendController::class, 'getMyFriends']);
         Route::get('{user}', [FriendController::class, 'getFriends']);
+
+        Route::post('{user}', [FriendController::class, 'store']);
     });
 
     Route::group(['prefix' => 'posts'], function () {

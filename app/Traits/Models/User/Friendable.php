@@ -18,4 +18,12 @@ trait Friendable
     {
         return $this->friends()->where('friend_id', $user->id)->exists();
     }
+
+    public function addFriend(User $user): void
+    {
+        $this->friends()->attach($user->id, [
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    }
 }

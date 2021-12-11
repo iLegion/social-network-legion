@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon updated_at
  *
  * @property-read User user
+ *
+ * @method static PrivacySetting|Builder query()
  */
 class PrivacySetting extends Model
 {

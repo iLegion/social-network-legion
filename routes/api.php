@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Dialog\DialogMessageController;
 use App\Http\Controllers\Api\FriendController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\PrivacySettingController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ViewController;
 use Illuminate\Support\Facades\Route;
@@ -33,13 +34,22 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'users'], function () {
+        Route::get('', [UserController::class, 'index']);
         Route::get('me', [UserController::class, 'getMe']);
         Route::get('{user}', [UserController::class, 'show']);
+
+        Route::put('{user}', [UserController::class, 'update']);
+    });
+
+    Route::group(['prefix' => 'privacy-settings'], function () {
+        Route::put('{privacySetting}', [PrivacySettingController::class, 'update']);
     });
 
     Route::group(['prefix' => 'friends'], function () {
         Route::get('my', [FriendController::class, 'getMyFriends']);
         Route::get('{user}', [FriendController::class, 'getFriends']);
+
+        Route::post('{user}', [FriendController::class, 'store']);
     });
 
     Route::group(['prefix' => 'posts'], function () {

@@ -16,4 +16,9 @@ trait FriendPolicyTrait
         return true;
 //        return $user->id === $model->id || $user->hasFriend($model) || $user->isAdmin();
     }
+
+    public function store(User $user, User $model): bool
+    {
+        return true;
+    }
 }

@@ -34,8 +34,9 @@ class UserResource extends BaseResource
             'avatar' => Storage::disk('public')->url($this->avatar),
             'friendsCount' => $this->friends_count ?? 0,
             'postsCount' => $this->posts_count ?? 0,
+            'isMyFriend' => $this->user && $this->user->hasFriend($this->resource),
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'updatedAt' => $this->updated_at,
         ];
 
         if ($this->relationLoaded('roles')) {

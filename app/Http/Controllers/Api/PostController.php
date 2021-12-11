@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\PostRequest;
 use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Requests\Post\PostUpdateRequest;
 use App\Http\Resources\Post\PostCollection;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
+use App\Models\User\User;
 use App\Services\Post\PostService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -21,11 +23,20 @@ class PostController extends Controller
     /**
      * @throws InternalServerErrorException
      */
-    public function index(): PostCollection
+    public function index(PostRequest $request): PostCollection
     {
+        $collection = collect($request->validated());
+
+        if ($collection->has('userId')) {
+            $collection->put(
+                'user',
+                User::query()->find($collection->get('userId'))
+            )->forget('userId');
+        }
+
         try {
             $posts = (new PostService())
-                ->getPostsForIndexPage()
+                ->get($collection, $this->user)
                 ->paginate(30);
 
             return new PostCollection($posts);
@@ -55,12 +66,16 @@ class PostController extends Controller
      * @throws AuthorizationException
      * @throws InternalServerErrorException
      */
-    public function show(Builder|Post $post): PostResource
+    public function show(Post $post): PostResource
     {
         $this->authorize('view', $post);
 
         try {
-            return new PostResource($post->with(['author'])->withCount(['likes', 'views']));
+            return new PostResource(
+                $post
+                    ->load(['author'])
+                    ->loadCount(['likes', 'views'])
+            );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

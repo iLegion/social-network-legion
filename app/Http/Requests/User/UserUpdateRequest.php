@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseRequest;
 use JetBrains\PhpStorm\ArrayShape;
 
-class RegisterRequest extends BaseRequest
+class UserUpdateRequest extends BaseRequest
 {
     public function authorize(): bool
     {
@@ -21,17 +21,21 @@ class RegisterRequest extends BaseRequest
     {
         return [
             'name' => [
+                'sometimes',
                 'required',
                 'string',
                 'max:255'
             ],
             'email' => [
+                'sometimes',
                 'required',
                 'string',
+                'max:255',
                 'email',
                 'unique:users'
             ],
             'password' => [
+                'sometimes',
                 'required',
                 'string',
                 'min:6',

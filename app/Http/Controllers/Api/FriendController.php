@@ -6,8 +6,10 @@ use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserCollection;
 use App\Models\User\User;
+use App\Services\Friend\FriendService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 
 class FriendController extends Controller
 {
@@ -44,6 +46,23 @@ class FriendController extends Controller
                     ->friends()
                     ->paginate(30)
             );
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
+     */
+    public function store(User $user): JsonResponse
+    {
+        $this->authorize('store', $user);
+
+        try {
+            (new FriendService())->addFriend($this->user, $user);
+
+            return response()->json([], 201);
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

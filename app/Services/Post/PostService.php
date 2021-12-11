@@ -12,10 +12,29 @@ use Illuminate\Support\Collection;
 
 class PostService
 {
-    public function getPostsForIndexPage(): Builder
+    public function get(Collection $collection, User $user): Builder
     {
-        return (new PostQueryBuilderAggregator(['author'], ['likes', 'views']))
-            ->getBuilder();
+        $aggregator = (new PostQueryBuilderAggregator(['author'], ['likes', 'views']));
+
+        if ($collection->has('user')) {
+            $aggregator->byAuthor($collection->get('user'));
+        } else {
+            $aggregator->byNotAuthor($user);
+        }
+
+        if ($collection->get('byLikes')) {
+            $aggregator->byLikes();
+        }
+
+        if ($collection->get('byViews')) {
+            $aggregator->byViews();
+        }
+
+        if (!($collection->get('byLikes') || $collection->get('byViews'))) {
+            $aggregator->byLatest();
+        }
+
+        return $aggregator->getBuilder();
     }
 
     public function create(Collection $collection, User $user): Post

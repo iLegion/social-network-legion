@@ -20,5 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'test@test.test',
             'password' => bcrypt(12345678)
         ])->roles()->attach(Role::query()->find(2));
+
+        User::factory()->count(100)->create();
     }
 }

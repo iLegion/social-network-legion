@@ -4,6 +4,7 @@ namespace App\Http\Requests\Comment;
 
 use App\Http\Requests\BaseRequest;
 use App\Services\CommentService;
+use Illuminate\Validation\Rule;
 use JetBrains\PhpStorm\ArrayShape;
 
 class CommentRequest extends BaseRequest
@@ -20,13 +21,18 @@ class CommentRequest extends BaseRequest
     public function rules(): array
     {
         $service = new CommentService();
-        $type = $this->post('type');
+        $type = $this->input('type');
 
         return [
             'id' => [
                 'required',
                 'numeric',
-                "exists:" . $service::MODELS[$type]
+                function ($attribute, $value, $fail) use ($service, $type) {
+                    if ($service->isCommentableModel($type)
+                        && !$service->isModelExists($value, $type)) {
+                        $fail('The :attribute is invalid.');
+                    }
+                }
             ],
             'type' => [
                 'required',

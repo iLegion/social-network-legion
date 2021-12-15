@@ -14,7 +14,7 @@ class PostService
 {
     public function get(Collection $collection, User $user): Builder
     {
-        $aggregator = (new PostQueryBuilderAggregator(['author'], ['likes', 'views']));
+        $aggregator = (new PostQueryBuilderAggregator(['author'], ['likes', 'views', 'comments']));
 
         if ($collection->has('user')) {
             $aggregator->byAuthor($collection->get('user'));

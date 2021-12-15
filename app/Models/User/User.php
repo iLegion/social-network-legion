@@ -32,6 +32,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read Collection<int, Role> $roles
  * @property-read Collection<int, DialogMessage> $dialogMessages
  * @property-read Collection<int, Dialog> $dialogsOwner
+ * @property-read Collection<int, Dialog> $dialogs
  *
  * @property-read int $posts_count
  *

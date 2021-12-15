@@ -13,6 +13,7 @@ class BotManController extends Controller
         $botMan = app('botman');
 
         $botMan->hears('(.*)', function (BotMan $botMan, $message) {
+
             $botMan->reply(
                 (new BotManService())->hearMessage($message)
             );

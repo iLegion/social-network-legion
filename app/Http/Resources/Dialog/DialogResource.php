@@ -24,14 +24,17 @@ class DialogResource extends BaseResource
     {
         /** @var DialogMessage $lastMessage */
         $lastMessage = $this->messages()->latest()->first('text');
+        $unreadCount = $this->messages()->unread()->count();
         $formattedLastMessage = $lastMessage
             ? mb_substr($lastMessage->text, 0, 150)
             : '';
-        $unreadCount = $this->messages()->unread()->count();
+        $title = $this->users()->count() === 2
+            ? $this->users()->where('id', '!=', $this->user->id)->first()->name
+            : $this->title;
 
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => $title,
             'lastMessage' => $formattedLastMessage,
             'unreadCount' => $unreadCount,
             'createdAt' => $this->created_at,

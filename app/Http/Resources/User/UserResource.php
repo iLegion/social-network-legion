@@ -27,6 +27,12 @@ class UserResource extends BaseResource
     ])]
     public function toArray($request): array
     {
+        $isMyFriend = $this->user->hasFriend($this->resource);
+        $hasDialogWithMe = $this->user
+            ->dialogs()
+            ->whereHas('users', function ($builder) {
+                $builder->where('user_id', $this->id);
+            })->exists();
         $collection = [
             'id' => $this->id,
             'name' => $this->name,
@@ -34,7 +40,8 @@ class UserResource extends BaseResource
             'avatar' => Storage::disk('public')->url($this->avatar),
             'friendsCount' => $this->friends_count ?? 0,
             'postsCount' => $this->posts_count ?? 0,
-            'isMyFriend' => $this->user && $this->user->hasFriend($this->resource),
+            'isMyFriend' => $isMyFriend,
+            'hasDialogWithMe' => $hasDialogWithMe,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

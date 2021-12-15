@@ -34,7 +34,7 @@ class CommentController extends Controller
         }
     }
 
-    public function store(CommentStoreRequest $request, CommentService $service): JsonResponse
+    public function store(CommentStoreRequest $request, CommentService $service): CommentResource
     {
         $id = $request->post('id');
         $type = $request->post('type');
@@ -43,7 +43,7 @@ class CommentController extends Controller
 
         $model->addComment($this->user, $text);
 
-        return response()->json([], 204);
+        return new CommentResource($model);
     }
 
     #[Pure]

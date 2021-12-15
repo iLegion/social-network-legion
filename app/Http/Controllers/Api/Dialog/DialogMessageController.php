@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Dialog;
 
+use App\Events\Chat\MessageCame;
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DialogMessage\DialogMessageStoreRequest;
@@ -42,6 +43,8 @@ class DialogMessageController extends Controller
                 $dialog,
                 $this->user
             );
+
+//            MessageCame::dispatch($dialogMessage, $dialogMessage->dialog->users);
 
             return new DialogMessageResource($dialogMessage);
         } catch (Exception $e) {

@@ -33,6 +33,14 @@ class CommentService
         return $modelName::query()->findOrFail($id);
     }
 
+    public function isModelExists(int $id, string $type): bool
+    {
+        /** @var Model $modelName */
+        $modelName = self::MODELS[$type];
+
+        return $modelName::query()->find($id)->exists();
+    }
+
     public function getCommentsByModel(int $id, string $type): MorphMany
     {
         $model = $this->getModel($id, $type);

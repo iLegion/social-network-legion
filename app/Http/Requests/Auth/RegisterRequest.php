@@ -23,6 +23,7 @@ class RegisterRequest extends BaseRequest
             'name' => [
                 'required',
                 'string',
+                'min:1',
                 'max:255'
             ],
             'email' => [

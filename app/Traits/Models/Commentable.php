@@ -15,9 +15,9 @@ trait Commentable
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function addComment(User $user, string $text): void
+    public function addComment(User $user, string $text): Comment
     {
-        (new CommentService())->create($this, $user, $text);
+        return (new CommentService())->create($this, $user, $text);
     }
 
     /**

@@ -13,7 +13,6 @@ use JetBrains\PhpStorm\Pure;
  */
 class CommentResource extends BaseResource
 {
-    #[Pure]
     #[ArrayShape([
         'id' => "int",
         'text' => "string",

@@ -26,7 +26,9 @@ class CommentController extends Controller
             $comments = $service->getCommentsByModel(
                 $request->get('id'),
                 $request->get('type')
-            )->paginate(30);
+            )
+                ->latest()
+                ->paginate(30);
 
             return new CommentCollection($comments);
         } catch (Exception $e) {
@@ -41,9 +43,9 @@ class CommentController extends Controller
         $text = $request->post('text');
         $model = $service->getModel($id, $type);
 
-        $model->addComment($this->user, $text);
-
-        return new CommentResource($model);
+        return new CommentResource(
+            $model->addComment($this->user, $text)
+        );
     }
 
     #[Pure]

@@ -16,7 +16,7 @@ trait FriendPolicyTrait
         return $user->id === $model->id || $model->privacySettings->profile_display_mode;
     }
 
-    public function store(User $user, User $model): bool
+    public function addToFriends(User $user, User $model): bool
     {
         return true;
     }

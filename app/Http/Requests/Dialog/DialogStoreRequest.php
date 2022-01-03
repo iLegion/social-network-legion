@@ -16,8 +16,7 @@ class DialogStoreRequest extends BaseRequest
 
     #[ArrayShape([
         'title' => "string[]",
-        'users' => "string[]",
-        'users.*' => "string[]",
+        'userID' => "string",
     ])]
     public function rules(): array
     {
@@ -26,14 +25,10 @@ class DialogStoreRequest extends BaseRequest
                 'required',
                 'string'
             ],
-            'users' => [
+            'userID' => [
                 'required',
-                'array'
-            ],
-            'users.*' => [
-                'required',
-                'int',
-                Rule::exists(User::class, 'id')
+                'numeric',
+                'exists:users,id'
             ]
         ];
     }

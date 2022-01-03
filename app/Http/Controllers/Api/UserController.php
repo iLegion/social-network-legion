@@ -24,7 +24,7 @@ class UserController extends Controller
 
         try {
             $users = $userService
-                ->get()
+                ->get($this->user)
                 ->orderByDesc('id')
                 ->where('id', '!=', $this->user->id)
                 ->paginate(30);

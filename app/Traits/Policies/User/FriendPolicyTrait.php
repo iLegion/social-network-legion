@@ -13,8 +13,7 @@ trait FriendPolicyTrait
 
     public function getFriends(User $user, User $model): bool
     {
-        return true;
-//        return $user->id === $model->id || $user->hasFriend($model) || $user->isAdmin();
+        return $user->id === $model->id || $model->privacySettings->profile_display_mode;
     }
 
     public function store(User $user, User $model): bool

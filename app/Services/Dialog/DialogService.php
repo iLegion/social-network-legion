@@ -18,10 +18,10 @@ class DialogService
             ->getBuilder();
     }
 
-    public function create(Collection $collection, Collection $users, User $owner): Dialog
+    public function create(string $title, Collection $users, User $owner): Dialog
     {
         return (new DialogCreatorAggregator())
-            ->setTitle($collection->get('title'))
+            ->setTitle($title)
             ->setOwner($owner)
             ->create()
             ->setUsers($users)

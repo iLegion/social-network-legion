@@ -8,6 +8,7 @@ use App\Http\Requests\Dialog\DialogStoreRequest;
 use App\Http\Resources\Dialog\DialogCollection;
 use App\Http\Resources\Dialog\DialogResource;
 use App\Models\Dialog\Dialog;
+use App\Models\User\User;
 use App\Services\Dialog\DialogService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -33,17 +34,22 @@ class DialogController extends Controller
     }
 
     /**
+     * @throws AuthorizationException
      * @throws InternalServerErrorException
      */
     public function store(DialogStoreRequest $request): DialogResource
     {
+        $user = User::query()->find($request->post('userID'));
+
+        $this->authorize('storeDialog', $user);
+
         DB::beginTransaction();
 
         try {
             $dialog = (new DialogService())
                 ->create(
-                    collect(['title' => $request->validated()['title']]),
-                    collect($request->validated()['users'])->push($this->user->id),
+                    $request->post('title'),
+                    collect([$user->id])->push($this->user->id),
                     $this->user
                 );
 

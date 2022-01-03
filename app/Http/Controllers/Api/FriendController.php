@@ -57,7 +57,7 @@ class FriendController extends Controller
      */
     public function store(User $user): JsonResponse
     {
-        $this->authorize('store', $user);
+        $this->authorize('addToFriends', $user);
 
         try {
             (new FriendService())->addFriend($this->user, $user);

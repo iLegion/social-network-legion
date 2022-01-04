@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserUpdateAvatarRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
@@ -77,12 +78,35 @@ class UserController extends Controller
      * @throws AuthorizationException
      * @throws InternalServerErrorException
      */
-    public function update(UserUpdateRequest $request, User $user, UserService $userService): UserResource
+    public function update(UserUpdateRequest $request, User $user, UserService $service): UserResource
     {
         $this->authorize('update', $this->user);
 
         try {
-            $user = $userService->update($user, collect($request->validated()));
+            $user = $service->update($user, collect($request->validated()));
+
+            return new UserResource(
+                $user
+                    ->loadCount(['posts', 'friends'])
+                    ->load(['roles'])
+            );
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
+     */
+    public function updateAvatar(UserUpdateAvatarRequest $request, User $user, UserService $service): UserResource
+    {
+        $this->authorize('update', $this->user);
+
+        try {
+            $user = $service->update($user, collect([
+                'avatar' => $request->file('file')
+            ]));
 
             return new UserResource(
                 $user

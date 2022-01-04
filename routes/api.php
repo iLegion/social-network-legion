@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('{user}', [UserController::class, 'show']);
 
         Route::put('{user}', [UserController::class, 'update']);
+        Route::post('{user}/avatar', [UserController::class, 'updateAvatar']);
     });
 
     Route::group(['prefix' => 'privacy-settings'], function () {

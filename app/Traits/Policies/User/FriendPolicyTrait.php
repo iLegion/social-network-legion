@@ -18,6 +18,6 @@ trait FriendPolicyTrait
 
     public function addToFriends(User $user, User $model): bool
     {
-        return true;
+        return $user->id !== $model->id && $model->privacySettings->add_friends_mode;
     }
 }

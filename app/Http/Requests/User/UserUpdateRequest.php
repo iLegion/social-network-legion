@@ -40,7 +40,7 @@ class UserUpdateRequest extends BaseRequest
                 'string',
                 'min:6',
                 'max:32'
-            ],
+            ]
         ];
     }
 }

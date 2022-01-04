@@ -44,6 +44,10 @@ class UserService
             $updater->setPassword($collection->get('password'));
         }
 
+        if ($collection->has('avatar')) {
+            $updater->setAvatar($collection->get('avatar'));
+        }
+
         return $updater->update();
     }
 }

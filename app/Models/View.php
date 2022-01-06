@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @mixin Eloquent
- *
  * @property int $id
  * @property int $user_id
  * @property int $viewable_id
@@ -24,8 +22,6 @@ use Illuminate\Support\Carbon;
  * @property-read Model|Eloquent $viewable
  * @property-read User $user
  *
- * @method static Builder|View newModelQuery()
- * @method static Builder|View newQuery()
  * @method static Builder|View query()
  */
 class View extends Model

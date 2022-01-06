@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property int|null $author_id
+ * @property int $author_id
  * @property string|null $image
  * @property string $title
  * @property string $text
@@ -23,7 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  *
  * @property-read User|null $author
- * @property-read View[]|Collection $views
+ * @property-read Collection<int, View> $views
  *
  * @property-read int $views_count
  * @property-read int $likes_count

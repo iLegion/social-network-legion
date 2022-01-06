@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int id
- * @property int user_id
- * @property int profile_display_mode
- * @property int add_friends_mode
- * @property int message_writing_mode
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @property int $id
+ * @property int $user_id
+ * @property int $profile_display_mode
+ * @property int $add_friends_mode
+ * @property int $message_writing_mode
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
- * @property-read User user
+ * @property-read User $user
  *
  * @method static PrivacySetting|Builder query()
  */

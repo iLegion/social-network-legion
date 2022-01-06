@@ -50,6 +50,10 @@ class PostService
     {
         $updater = new PostUpdaterAggregator($post);
 
+        if ($collection->has('image')) {
+            $updater->setImage($collection->get('image'));
+        }
+
         if ($collection->has('title')) {
             $updater = $updater->setTitle($collection->get('title'));
         }

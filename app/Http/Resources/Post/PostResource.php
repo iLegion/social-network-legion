@@ -5,6 +5,7 @@ namespace App\Http\Resources\Post;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
@@ -13,9 +14,9 @@ use JetBrains\PhpStorm\Pure;
  */
 class PostResource extends BaseResource
 {
-    #[Pure]
     #[ArrayShape([
         'id' => "int",
+        'image' => "string",
         'title' => "string",
         'text' => "string",
         'createdAt' => "\Illuminate\Support\Carbon",
@@ -29,6 +30,7 @@ class PostResource extends BaseResource
     {
         return [
             'id' => $this->id,
+            'image' => Storage::disk('posts')->url($this->image),
             'title' => $this->title,
             'text' => $this->text,
             'createdAt' => $this->created_at,

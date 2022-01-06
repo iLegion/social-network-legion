@@ -3,6 +3,8 @@
 namespace App\Aggregators\Post;
 
 use App\Models\Post;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class PostUpdaterAggregator
 {
@@ -11,6 +13,18 @@ class PostUpdaterAggregator
     public function __construct(Post $post)
     {
         $this->builder = $post;
+    }
+
+    public function setImage(UploadedFile $value): static
+    {
+        $image = $this->builder->image;
+        $path = Storage::disk('posts')->putFile('/' . $this->builder->id . '/images', $value);
+
+        Storage::disk('users')->delete($image);
+
+        $this->builder->image = $path;
+
+        return $this;
     }
 
     public function setTitle(string $value): static

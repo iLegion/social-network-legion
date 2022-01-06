@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Aggregators\User;
+namespace App\Aggregators\User\PrivacySetting;
 
 use App\Models\User\PrivacySetting;
 use App\Models\User\User;

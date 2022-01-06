@@ -27,7 +27,7 @@ class PostFactory extends Factory
         return [
             'author_id' => $author->id,
             'title' => $this->faker->title,
-            'text' => $this->faker->text
+            'text' => json_encode([["id" => "AaBB2WqCGP","type" => "paragraph","data" => ["text" => "Test text."]]])
         ];
     }
 }

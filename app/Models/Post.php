@@ -42,6 +42,13 @@ class Post extends Model
         'text'
     ];
 
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'text' => 'json'
+    ];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id', 'id');

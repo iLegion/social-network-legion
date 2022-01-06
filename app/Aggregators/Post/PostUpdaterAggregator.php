@@ -20,7 +20,7 @@ class PostUpdaterAggregator
         return $this;
     }
 
-    public function setText(string $value): static
+    public function setText(array $value): static
     {
         $this->builder->text = $value;
 

@@ -29,9 +29,7 @@ class PostUpdateRequest extends BaseRequest
             'text' => [
                 'sometimes',
                 'required',
-                'string',
-                'min:10',
-                'max:10000'
+                'array'
             ]
         ];
     }

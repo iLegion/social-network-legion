@@ -27,9 +27,7 @@ class PostStoreRequest extends BaseRequest
             ],
             'text' => [
                 'required',
-                'string',
-                'min:10',
-                'max:10000'
+                'array'
             ]
         ];
     }

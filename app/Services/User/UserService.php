@@ -11,12 +11,21 @@ use Illuminate\Support\Collection;
 
 class UserService
 {
-    public function get(User $user): Builder
+    public function get(User $user, Collection $collection): Builder
     {
-        return (new UserQueryBuilderAggregator(['roles'], ['posts', 'friends']))
+        $builder = (new UserQueryBuilderAggregator(['roles'], ['posts', 'friends']))
             ->byNotClosedProfilesInPrivacySettings()
-            ->byNotFriendsFor($user)
-            ->getBuilder();
+            ->byNotFriendsFor($user);
+
+        if ($collection->has('name')) {
+            $builder->byName($collection->get('name'));
+        } else if ($collection->has('postsCount')) {
+            $builder->byPostsCount($collection->get('postsCount'));
+        } else if ($collection->has('friendsCount')) {
+            $builder->byFriendsCount($collection->get('friendsCount'));
+        }
+
+        return $builder->getBuilder();
     }
 
     public function create(Collection $collection): User

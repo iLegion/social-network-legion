@@ -13,12 +13,18 @@ class PostStoreRequest extends BaseRequest
     }
 
     #[ArrayShape([
+        'image' => "string[]",
         'title' => "string[]",
         'text' => "string[]"
     ])]
     public function rules(): array
     {
         return [
+            'image' => [
+                'required',
+                'file',
+                'mimes:jpg,png'
+            ],
             'title' => [
                 'required',
                 'string',

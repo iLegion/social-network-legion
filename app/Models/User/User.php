@@ -49,6 +49,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -79,6 +80,21 @@ class User extends Authenticatable
     protected $attributes = [
         'avatar' => 'core/user.svg'
     ];
+
+    public function isAdmin(): bool
+    {
+        return $this->roles()->getAdminQuery()->exists();
+    }
+
+    public function isUser(): bool
+    {
+        return $this->roles()->getUserQuery()->exists();
+    }
+
+    public function setUserRole(): void
+    {
+        $this->roles()->attach($this->roles()->getUserQuery()->select('id')->pluck('id'));
+    }
 
     public function posts(): HasMany
     {
@@ -118,20 +134,5 @@ class User extends Authenticatable
             'user_id',
             'friend_id'
         );
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->roles()->getAdminQuery()->exists();
-    }
-
-    public function isUser(): bool
-    {
-        return $this->roles()->getUserQuery()->exists();
-    }
-
-    public function setUserRole(): void
-    {
-        $this->roles()->attach($this->roles()->getUserQuery()->select('id')->pluck('id'));
     }
 }

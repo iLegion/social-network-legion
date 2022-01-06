@@ -2,8 +2,8 @@
 
 namespace App\Services\User;
 
-use App\Aggregators\User\PrivacySettingCreatorAggregator;
-use App\Aggregators\User\PrivacySettingUpdaterAggregator;
+use App\Aggregators\User\PrivacySetting\PrivacySettingCreatorAggregator;
+use App\Aggregators\User\PrivacySetting\PrivacySettingUpdaterAggregator;
 use App\Models\User\PrivacySetting;
 use App\Models\User\User;
 use Illuminate\Support\Collection;

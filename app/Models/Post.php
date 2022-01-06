@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int|null $author_id
+ * @property string|null $image
  * @property string $title
  * @property string $text
  * @property Carbon $created_at
@@ -38,6 +39,7 @@ class Post extends Model
      * @var string[]
      */
     protected $fillable = [
+        'image',
         'title',
         'text'
     ];
@@ -46,7 +48,7 @@ class Post extends Model
      * @var string[]
      */
     protected $casts = [
-        'text' => 'json'
+        'text' => 'array'
     ];
 
     public function author(): BelongsTo

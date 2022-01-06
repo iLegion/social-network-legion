@@ -37,7 +37,9 @@ class UserResource extends BaseResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'avatar' => Storage::disk('public')->url($this->avatar),
+            'avatar' => $this->avatar === 'core/user.svg'
+                ? Storage::disk('public')->url($this->avatar)
+                : Storage::disk('users')->url($this->avatar),
             'friendsCount' => $this->friends_count ?? 0,
             'postsCount' => $this->posts_count ?? 0,
             'isMyFriend' => $isMyFriend,

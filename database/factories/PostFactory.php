@@ -16,6 +16,7 @@ class PostFactory extends Factory
 
     #[ArrayShape([
         'author_id' => "int",
+        'image' => "string",
         'title' => "string",
         'text' => "string"
     ])]
@@ -26,8 +27,9 @@ class PostFactory extends Factory
 
         return [
             'author_id' => $author->id,
+            'image' => 'test-link',
             'title' => $this->faker->title,
-            'text' => json_encode([["id" => "AaBB2WqCGP","type" => "paragraph","data" => ["text" => "Test text."]]])
+            'text' => [["id" => "AaBB2WqCGP","type" => "paragraph","data" => ["text" => "Test text."]]]
         ];
     }
 }

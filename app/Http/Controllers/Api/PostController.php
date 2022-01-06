@@ -48,12 +48,18 @@ class PostController extends Controller
     /**
      * @throws InternalServerErrorException
      */
-    public function store(PostStoreRequest $request): PostResource
+    public function store(PostStoreRequest $request, PostService $service): PostResource
     {
         try {
-            $post = (new PostService())->create(
+            $post = $service->create(
                 collect($request->validated()),
                 $this->user
+            );
+            $post = $service->update(
+                $post,
+                collect([
+                    'image' => $request->file('image')
+                ])
             );
 
             return new PostResource($post);

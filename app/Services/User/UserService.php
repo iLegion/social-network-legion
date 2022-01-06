@@ -19,9 +19,13 @@ class UserService
 
         if ($collection->has('name')) {
             $builder->byName($collection->get('name'));
-        } else if ($collection->has('postsCount')) {
+        }
+
+        if ($collection->has('postsCount')) {
             $builder->byPostsCount($collection->get('postsCount'));
-        } else if ($collection->has('friendsCount')) {
+        }
+
+        if ($collection->has('friendsCount')) {
             $builder->byFriendsCount($collection->get('friendsCount'));
         }
 

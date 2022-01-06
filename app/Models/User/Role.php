@@ -10,15 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int id
- * @property string title
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @property int $id
+ * @property string $title
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
- * @property-read Collection users
+ * @property-read Collection<int, User> $users
  *
- * @method Builder getAdminQuery()
- * @method Builder getUserQuery()
+ * @method Role|Builder query()
+ * @method Role|Builder getAdminQuery()
+ * @method Role|Builder getUserQuery()
  */
 class Role extends Model
 {

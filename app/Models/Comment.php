@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @mixin Eloquent
- *
  * @property int $id
  * @property int $user_id
  * @property int $commentable_id
@@ -25,13 +23,18 @@ use Illuminate\Support\Carbon;
  * @property-read Model|Eloquent $commentable
  * @property-read User $user
  *
- * @method static Builder|Comment newModelQuery()
- * @method static Builder|Comment newQuery()
  * @method static Builder|Comment query()
  */
 class Comment extends Model
 {
     use HasFactory;
+
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'text'
+    ];
 
     public function commentable(): MorphTo
     {

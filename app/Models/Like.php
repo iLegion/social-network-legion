@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\View
- *
- * @mixin Eloquent
  * @property int $id
  * @property int $user_id
  * @property int $likeable_id
@@ -25,8 +22,6 @@ use Illuminate\Support\Carbon;
  * @property-read Model|Eloquent $viewable
  * @property-read User $user
  *
- * @method static Builder|Like newModelQuery()
- * @method static Builder|Like newQuery()
  * @method static Builder|Like query()
  */
 class Like extends Model

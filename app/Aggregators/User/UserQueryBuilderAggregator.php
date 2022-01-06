@@ -34,8 +34,34 @@ class UserQueryBuilderAggregator
 
     public function byNotFriendsFor(User $user): static
     {
-        $this->builder
-            ->whereNotIn('id', $user->friends()->pluck('friend_id'));
+        $this->builder->whereNotIn('id', $user->friends()->pluck('friend_id'));
+
+        return $this;
+    }
+
+    public function byName(string $value): static
+    {
+        $value = strtolower($value);
+
+        $this->builder->where('name', 'like', "%$value%");
+
+        return $this;
+    }
+
+    public function byPostsCount(bool $value): static
+    {
+        $order = $value ? 'desc' : 'asc';
+
+        $this->builder->orderBy('posts_count', $order);
+
+        return $this;
+    }
+
+    public function byFriendsCount(bool $value): static
+    {
+        $order = $value ? 'desc' : 'asc';
+
+        $this->builder->orderBy('friends_count', $order);
 
         return $this;
     }

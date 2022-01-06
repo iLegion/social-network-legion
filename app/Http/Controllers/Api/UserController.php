@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserIndexRequest;
 use App\Http\Requests\User\UserUpdateAvatarRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserCollection;
@@ -19,13 +20,13 @@ class UserController extends Controller
      * @throws AuthorizationException
      * @throws InternalServerErrorException
      */
-    public function index(UserService $userService): UserCollection
+    public function index(UserIndexRequest $request, UserService $userService): UserCollection
     {
         $this->authorize('index', User::class);
 
         try {
             $users = $userService
-                ->get($this->user)
+                ->get($this->user, collect($request->validated()))
                 ->orderByDesc('id')
                 ->where('id', '!=', $this->user->id)
                 ->paginate(30);

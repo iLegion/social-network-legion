@@ -7,12 +7,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Links
-1. Horizon: {url}/horizon/dashboard
-2. Telescope {url}/telescope/requests
+# Dev
+1. Horizon
+2. Telescope
 
 # Start
 1. Copy .env.example
+2. Run `composer install`
+3. Run `php artisan key:generate`
 
 # Needs
 1. Redis

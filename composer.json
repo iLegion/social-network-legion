@@ -5,10 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "8.0",
-        "botman/botman": "^2.6",
-        "botman/driver-telegram": "^1.6",
-        "botman/driver-web": "^1.5",
+        "php": "^8.0",
         "composer/composer": "2.1.9",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

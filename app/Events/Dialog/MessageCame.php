@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Events\Chat;
+namespace App\Events\Dialog;
 
 use App\Models\Dialog\DialogMessage;
 use App\Models\User\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use JetBrains\PhpStorm\ArrayShape;
 
-class MessageCame
+class MessageCame implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -41,7 +42,7 @@ class MessageCame
         $channels = collect();
 
         $this->users->each(function (User $user) use ($channels) {
-            $channels->push(new PrivateChannel("chat.users.$user->id"));
+            $channels->push(new PrivateChannel("dialog.users.$user->id"));
         });
 
         return $channels->toArray();

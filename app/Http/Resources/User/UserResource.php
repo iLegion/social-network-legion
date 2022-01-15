@@ -27,8 +27,8 @@ class UserResource extends BaseResource
     ])]
     public function toArray($request): array
     {
-        $isMyFriend = $this->user->hasFriend($this->resource);
-        $hasDialogWithMe = $this->user
+        $isMyFriend = $this->authUser->hasFriend($this->resource);
+        $hasDialogWithMe = $this->authUser
             ->dialogs()
             ->whereHas('users', function ($builder) {
                 $builder->where('user_id', $this->id);

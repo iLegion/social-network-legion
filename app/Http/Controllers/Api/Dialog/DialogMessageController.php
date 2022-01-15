@@ -24,6 +24,7 @@ class DialogMessageController extends Controller
         try {
             $dialogMessages = (new DialogMessageService())
                 ->getByDialog($dialog)
+                ->latest()
                 ->paginate(30);
 
             return new DialogMessageCollection($dialogMessages);

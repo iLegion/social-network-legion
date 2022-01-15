@@ -19,26 +19,28 @@ class DialogResource extends BaseResource
         'unreadCount' => "int",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon",
+        'lastMessageCreatedAt' => "\Illuminate\Support\Carbon",
+        'lastMessageUpdatedAt' => "\Illuminate\Support\Carbon",
     ])]
     public function toArray($request): array
     {
         /** @var DialogMessage $lastMessage */
-        $lastMessage = $this->messages()->latest()->first('text');
+        $lastMessage = $this->messages()->latest()->first(['text', 'created_at', 'updated_at']);
         $unreadCount = $this->messages()->unread()->count();
-        $formattedLastMessage = $lastMessage
-            ? mb_substr($lastMessage->text, 0, 150)
-            : '';
         $title = $this->users()->count() === 2
-            ? $this->users()->where('id', '!=', $this->user->id)->first()->name
+            ? $this->users()->where('id', '!=', $this->authUser->id)->first()->name
             : $this->title;
 
         return [
             'id' => $this->id,
             'title' => $title,
-            'lastMessage' => $formattedLastMessage,
             'unreadCount' => $unreadCount,
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'updatedAt' => $this->updated_at,
+
+            'lastMessage' => $lastMessage->text,
+            'lastMessageCreatedAt' => $lastMessage->created_at,
+            'lastMessageUpdatedAt' => $lastMessage->updated_at,
         ];
     }
 }

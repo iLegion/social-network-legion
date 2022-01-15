@@ -2,6 +2,7 @@
 
 namespace App\Events\Dialog;
 
+use App\Http\Resources\DialogMessage\DialogMessageResource;
 use App\Models\Dialog\DialogMessage;
 use App\Models\User\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -31,10 +32,7 @@ class MessageCame implements ShouldBroadcast
     ])]
     public function broadcastWith(): array
     {
-        return [
-            'id' => $this->message->id,
-            'text' => $this->message->text,
-        ];
+        return (new DialogMessageResource($this->message->load('user')))->resolve();
     }
 
     public function broadcastOn(): array

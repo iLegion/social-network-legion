@@ -9,12 +9,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 abstract class BaseResource extends JsonResource
 {
-    protected User|Authenticatable|null $user;
+    protected User|Authenticatable|null $authUser;
 
     public function __construct(Model $resource)
     {
         parent::__construct($resource);
 
-        $this->user = auth('sanctum')->user();
+        $this->authUser = auth('sanctum')->user();
     }
 }

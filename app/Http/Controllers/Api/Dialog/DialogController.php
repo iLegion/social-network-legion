@@ -25,6 +25,7 @@ class DialogController extends Controller
         try {
             $dialogs = (new DialogService())
                 ->getMyDialogs($this->user)
+                ->latest()
                 ->paginate(30);
 
             return new DialogCollection($dialogs);

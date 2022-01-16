@@ -38,9 +38,9 @@ class DialogResource extends BaseResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
 
-            'lastMessage' => $lastMessage->text,
-            'lastMessageCreatedAt' => $lastMessage->created_at,
-            'lastMessageUpdatedAt' => $lastMessage->updated_at,
+            'lastMessage' => optional($lastMessage)->text,
+            'lastMessageCreatedAt' => optional($lastMessage)->created_at,
+            'lastMessageUpdatedAt' => optional($lastMessage)->updated_at,
         ];
     }
 }

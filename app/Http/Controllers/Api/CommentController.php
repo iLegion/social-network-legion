@@ -6,14 +6,13 @@ use App\Exceptions\InternalServerErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\CommentRequest;
 use App\Http\Requests\Comment\CommentStoreRequest;
+use App\Http\Requests\Comment\CommentUpdateRequest;
 use App\Http\Resources\Comment\CommentCollection;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment;
 use App\Services\CommentService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use JetBrains\PhpStorm\Pure;
 
 class CommentController extends Controller
 {
@@ -48,15 +47,17 @@ class CommentController extends Controller
         );
     }
 
-    #[Pure]
     public function show(Comment $comment): CommentResource
     {
         return new CommentResource($comment);
     }
 
-    public function update(Request $request, Comment $comment)
+    public function update(CommentUpdateRequest $request, Comment $comment): CommentResource
     {
-        //
+        $comment = (new CommentService())
+            ->update($comment, $request->post('text'));
+
+        return new CommentResource($comment);
     }
 
     /**

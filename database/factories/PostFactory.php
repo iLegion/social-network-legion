@@ -27,7 +27,6 @@ class PostFactory extends Factory
 
         return [
             'author_id' => $author->id,
-            'image' => 'test-link',
             'title' => $this->faker->title,
             'text' => [["id" => "AaBB2WqCGP","type" => "paragraph","data" => ["text" => "Test text."]]]
         ];

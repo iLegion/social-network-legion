@@ -62,7 +62,7 @@ class CommentService
         return $comment;
     }
 
-    public function update(Comment $model, User $user, string $text): Comment
+    public function update(Comment $model, string $text): Comment
     {
         $model->text = $text;
 

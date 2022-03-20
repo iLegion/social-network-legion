@@ -28,10 +28,7 @@ class LoginController extends Controller
             DB::commit();
 
             return response()->json([
-                'data' => [
-                    'type' => 'Bearer',
-                    'token' => $user->createToken('authToken')->plainTextToken
-                ]
+                'token' => $user->createToken('authToken')->plainTextToken
             ]);
         } catch (Exception $e) {
             DB::rollBack();

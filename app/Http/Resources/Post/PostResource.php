@@ -3,11 +3,10 @@
 namespace App\Http\Resources\Post;
 
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\SimpleUserResource;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @mixin Post
@@ -36,7 +35,7 @@ class PostResource extends BaseResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
 
-            'author' => new UserResource($this->author),
+            'author' => new SimpleUserResource($this->author),
             'viewsCount' => $this->views_count ?? 0,
             'likesCount' => $this->likes_count ?? 0,
             'commentsCount' => $this->comments_count ?? 0,

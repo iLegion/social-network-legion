@@ -48,8 +48,8 @@ class UserController extends Controller
         try {
             return new UserResource(
                 $this->user
+                    ->load(['privacySettings', 'roles'])
                     ->loadCount(['posts', 'friends'])
-                    ->load(['roles'])
             );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
@@ -67,8 +67,8 @@ class UserController extends Controller
         try {
             return new UserResource(
                 $user
+                    ->load(['privacySettings', 'roles'])
                     ->loadCount(['posts', 'friends'])
-                    ->load(['roles'])
             );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
@@ -88,8 +88,8 @@ class UserController extends Controller
 
             return new UserResource(
                 $user
+                    ->load(['privacySettings', 'roles'])
                     ->loadCount(['posts', 'friends'])
-                    ->load(['roles'])
             );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
@@ -111,8 +111,8 @@ class UserController extends Controller
 
             return new UserResource(
                 $user
+                    ->load(['privacySettings', 'roles'])
                     ->loadCount(['posts', 'friends'])
-                    ->load(['roles'])
             );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);

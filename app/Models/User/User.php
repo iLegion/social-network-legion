@@ -70,13 +70,6 @@ class User extends Authenticatable
     /**
      * @var string[]
      */
-    protected $with = [
-        'privacySettings'
-    ];
-
-    /**
-     * @var string[]
-     */
     protected $attributes = [
         'avatar' => 'core/user.svg'
     ];

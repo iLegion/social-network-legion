@@ -2,21 +2,25 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
-use JetBrains\PhpStorm\Pure;
 
 abstract class BaseCollection extends ResourceCollection
 {
+    protected User|Authenticatable|null $authUser;
+
     private bool $withPagination;
 
     public function __construct(Paginator|EloquentCollection $resource, $withPagination = true)
     {
         parent::__construct($resource);
 
+        $this->authUser = auth('sanctum')->user();
         $this->withPagination = $withPagination;
     }
 

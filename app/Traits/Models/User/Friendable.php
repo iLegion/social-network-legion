@@ -19,6 +19,15 @@ trait Friendable
         return $this->friends()->where('friend_id', $user->id)->exists();
     }
 
+    /**
+     * @param Collection<int, User> $users
+     * @return \Illuminate\Support\Collection
+     */
+    public function hasFriends(Collection $users): \Illuminate\Support\Collection
+    {
+        return $this->friends()->select(['user_id'])->whereIn('friend_id', $users->pluck('id'))->pluck('user_id');
+    }
+
     public function addFriend(User $user): void
     {
         $this->friends()->attach($user->id, [

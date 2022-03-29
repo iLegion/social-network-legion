@@ -49,7 +49,7 @@ class UserResource extends BaseResource
         ];
 
         if ($this->relationLoaded('roles')) {
-            $collection['roles'] = $this->roles()->count()
+            $collection['roles'] = $this->roles
                 ? new RoleCollection($this->roles, false)
                 : [];
         }

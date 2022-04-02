@@ -14,7 +14,6 @@ use App\Models\User\User;
 use App\Services\Post\PostService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -68,7 +67,7 @@ class PostController extends Controller
         }
     }
 
-    /**\
+    /**
      * @throws AuthorizationException
      * @throws InternalServerErrorException
      */

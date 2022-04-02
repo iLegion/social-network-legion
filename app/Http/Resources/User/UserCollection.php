@@ -3,27 +3,36 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\BaseCollection;
-use App\Models\User\User;
 
 class UserCollection extends BaseCollection
 {
     public function toArray($request): array
     {
-        $this->getFriends();
-        return [];
-//        return $this->collection->map(function (User $item) {
-//           return new UserResource($item);
+        return parent::toArray($this->collection);
+//        return $this->collection->map(function (UserResource $user) use ($request) {
+//            return $user->setAdditionalData(collect([
+//                'isMyFriendsIDs' => $this->getMyFriendsIDs()
+//            ]))->toArray($request);
 //        })->toArray();
     }
 
-    private function getFriends()
+    private function getMyFriendsIDs(): array
     {
-        info($this->collection);
-        info($this->resource);
-        info(get_class($this->collection));
-        info(get_class($this->resource));
-//        $r = $this->authUser->hasFriends($this->collection);
+        return $this
+            ->authUser
+            ->hasFriends($this->collection->pluck('id')->toArray())
+            ->toArray();
+    }
 
-//        info($r);
+    private function getDialogsIDs(): array
+    {
+        return $this
+            ->authUser
+            ->dialogs()
+            ->whereHas('users', function ($builder) {
+                $builder->where('user_id', $this->collection->pluck('id')->toArray());
+            })
+            ->pluck('id')
+            ->toArray();
     }
 }

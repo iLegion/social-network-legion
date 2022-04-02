@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 /**
  * @mixin User
  *
- * @property-read Collection $friends
+ * @property-read Collection<int, User> $friends
  *
  * @property-read int friends_count
  */
@@ -20,12 +20,16 @@ trait Friendable
     }
 
     /**
-     * @param Collection<int, User> $users
+     * @param array $usersIDs
      * @return \Illuminate\Support\Collection
      */
-    public function hasFriends(Collection $users): \Illuminate\Support\Collection
+    public function hasFriends(array $usersIDs): \Illuminate\Support\Collection
     {
-        return $this->friends()->select(['user_id'])->whereIn('friend_id', $users->pluck('id'))->pluck('user_id');
+        return $this
+            ->friends()
+            ->select(['friend_id'])
+            ->whereIn('friend_id', $usersIDs)
+            ->pluck('friend_id');
     }
 
     public function addFriend(User $user): void

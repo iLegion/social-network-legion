@@ -12,11 +12,10 @@ use Illuminate\Support\Collection;
 
 abstract class BaseCollection extends ResourceCollection
 {
-    protected User|Authenticatable|null $authUser;
+    protected User | Authenticatable | null $authUser;
+    protected bool $withPagination;
 
-    private bool $withPagination;
-
-    public function __construct(Paginator|EloquentCollection $resource, $withPagination = true)
+    public function __construct(Paginator | EloquentCollection $resource, $withPagination = true)
     {
         parent::__construct($resource);
 

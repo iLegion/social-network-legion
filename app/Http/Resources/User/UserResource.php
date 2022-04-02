@@ -20,15 +20,19 @@ class UserResource extends BaseResource
         'email' => "string",
         'avatar' => "string",
         'friendsCount' => "int",
+        'postsCount' => "int",
+        'isMyFriend' => "bool",
+        'hasDialogWithMe' => "bool",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon",
         'roles' => "RoleCollection",
         'privacySettings' => "PrivacySettingResource",
+        'friends' => "UserCollection",
     ])]
     public function toArray($request): array
     {
-        $isMyFriend = $this->authUser->hasFriend($this->resource);
-        $hasDialogWithMe = $this->authUser
+        $isMyFriend = $this->id !== $this->authUser->id && $this->authUser->hasFriend($this->resource);
+        $hasDialogWithMe = $this->id !== $this->authUser->id && $this->authUser
             ->dialogs()
             ->whereHas('users', function ($builder) {
                 $builder->where('user_id', $this->id);

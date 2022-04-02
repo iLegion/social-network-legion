@@ -31,10 +31,10 @@ class PostQueryBuilderAggregator
         return $this;
     }
 
-    public function byNotAuthor(User $user): static
+    public function byAuthors(array $usersIDs): static
     {
-        $this->builder->whereHas('author', function (Builder $builder) use ($user) {
-            $builder->whereIn('id', $user->friends()->select('users.id')->pluck('id'));
+        $this->builder->whereHas('author', function (Builder $builder) use ($usersIDs) {
+            $builder->whereIn('id', $usersIDs);
         });
 
         return $this;

@@ -15,14 +15,20 @@ class PostService
     public function get(Collection $collection, User $user): Builder
     {
         $aggregator = (new PostQueryBuilderAggregator(
-            ['author', 'author.privacySettings'],
+            ['author'],
             ['likes', 'views', 'comments'])
         );
 
         if ($collection->has('user')) {
             $aggregator->byAuthor($collection->get('user'));
         } else {
-            $aggregator->byNotAuthor($user);
+            $aggregator->byAuthors(
+                $user
+                    ->friends()
+                    ->select('users.id')
+                    ->pluck('id')
+                    ->toArray()
+            );
         }
 
         if ($collection->get('byLikes')) {

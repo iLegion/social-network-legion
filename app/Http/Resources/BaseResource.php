@@ -9,9 +9,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 abstract class BaseResource extends JsonResource
 {
-    protected User|Authenticatable|null $authUser;
+    protected User | Authenticatable | null $authUser;
 
-    public function __construct(Model $resource)
+    public function __construct(Model | JsonResource $resource)
     {
         parent::__construct($resource);
 

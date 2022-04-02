@@ -14,8 +14,8 @@ class UserService
     public function get(User $user, Collection $collection): Builder
     {
         $builder = (new UserQueryBuilderAggregator(['privacySettings', 'roles'], ['posts', 'friends']))
-            ->byNotClosedProfilesInPrivacySettings()
-            ->byNotFriendsFor($user);
+            ->byNotClosedProfilesInPrivacySettings();
+//            ->byNotFriendsFor($user);
 
         if ($collection->has('name')) {
             $builder->byName($collection->get('name'));

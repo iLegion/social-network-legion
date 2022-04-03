@@ -6,6 +6,9 @@ use App\Http\Resources\BaseResource;
 use App\Http\Resources\PrivacySetting\PrivacySettingResource;
 use App\Http\Resources\Role\RoleCollection;
 use App\Models\User\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -14,6 +17,15 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class UserResource extends BaseResource
 {
+    private Collection|null $additionalData;
+
+    public function __construct(Model|JsonResource $resource, Collection $additionalData = null)
+    {
+        parent::__construct($resource);
+
+        $this->additionalData = $additionalData;
+    }
+
     #[ArrayShape([
         'id' => "int",
         'name' => "string",
@@ -22,7 +34,6 @@ class UserResource extends BaseResource
         'friendsCount' => "int",
         'postsCount' => "int",
         'isMyFriend' => "bool",
-        'hasDialogWithMe' => "bool",
         'createdAt' => "\Illuminate\Support\Carbon",
         'updatedAt' => "\Illuminate\Support\Carbon",
         'roles' => "RoleCollection",
@@ -31,12 +42,18 @@ class UserResource extends BaseResource
     ])]
     public function toArray($request): array
     {
-        $isMyFriend = $this->id !== $this->authUser->id && $this->authUser->hasFriend($this->resource);
-        $hasDialogWithMe = $this->id !== $this->authUser->id && $this->authUser
-            ->dialogs()
-            ->whereHas('users', function ($builder) {
-                $builder->where('user_id', $this->id);
-            })->exists();
+        $isMyFriend = false;
+
+        if ($this->id !== $this->authUser->id) {
+            if ($this->additionalData) {
+                if ($this->additionalData->has('isMyFriendsIDs')) {
+                    $isMyFriend = in_array($this->id, $this->additionalData->get('isMyFriendsIDs'));
+                }
+            } else {
+                $isMyFriend = $this->authUser->hasFriend($this->resource);
+            }
+        }
+
         $collection = [
             'id' => $this->id,
             'name' => $this->name,
@@ -47,7 +64,6 @@ class UserResource extends BaseResource
             'friendsCount' => $this->friends_count ?? 0,
             'postsCount' => $this->posts_count ?? 0,
             'isMyFriend' => $isMyFriend,
-            'hasDialogWithMe' => $hasDialogWithMe,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

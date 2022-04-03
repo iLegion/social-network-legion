@@ -45,6 +45,25 @@ class PostController extends Controller
     }
 
     /**
+     * @throws AuthorizationException
+     * @throws InternalServerErrorException
+     */
+    public function show(Post $post): PostResource
+    {
+        $this->authorize('view', $post);
+
+        try {
+            return new PostResource(
+                $post
+                    ->load(['author'])
+                    ->loadCount(['likes', 'views'])
+            );
+        } catch (Exception $e) {
+            throw new InternalServerErrorException($e->getMessage(), $e);
+        }
+    }
+
+    /**
      * @throws InternalServerErrorException
      */
     public function store(PostStoreRequest $request, PostService $service): PostResource
@@ -62,25 +81,6 @@ class PostController extends Controller
             );
 
             return new PostResource($post);
-        } catch (Exception $e) {
-            throw new InternalServerErrorException($e->getMessage(), $e);
-        }
-    }
-
-    /**
-     * @throws AuthorizationException
-     * @throws InternalServerErrorException
-     */
-    public function show(Post $post): PostResource
-    {
-        $this->authorize('view', $post);
-
-        try {
-            return new PostResource(
-                $post
-                    ->load(['author'])
-                    ->loadCount(['likes', 'views'])
-            );
         } catch (Exception $e) {
             throw new InternalServerErrorException($e->getMessage(), $e);
         }

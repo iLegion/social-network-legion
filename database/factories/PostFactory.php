@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Post;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\ArrayShape;
 
 class PostFactory extends Factory
@@ -22,13 +23,21 @@ class PostFactory extends Factory
     ])]
     public function definition(): array
     {
-        /** @var User $author */
-        $author = User::query()->select('id')->inRandomOrder()->first();
+        $image = $this
+            ->faker
+            ->image(
+                Storage::disk('posts')->path('/'),
+                450,
+                250,
+                'cats',
+                false
+            );
 
         return [
-            'author_id' => $author->id,
+            'author_id' => User::query()->select('id')->inRandomOrder()->first()->id,
             'title' => $this->faker->title,
-            'text' => [["id" => "AaBB2WqCGP","type" => "paragraph","data" => ["text" => "Test text."]]]
+            'text' => [["id" => "AaBB2WqCGP","type" => "paragraph","data" => ["text" => "Test text."]]],
+            'image' => $image
         ];
     }
 }

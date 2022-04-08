@@ -14,8 +14,8 @@ class UserIndexRequest extends BaseRequest
 
     #[ArrayShape([
         'name' => "string[]",
-        'postsCount' => "string[]",
-        'friendsCount' => "string[]"
+        'byPostsCount' => "string[]",
+        'byFriendsCount' => "string[]"
     ])]
     public function rules(): array
     {
@@ -27,12 +27,12 @@ class UserIndexRequest extends BaseRequest
                 'min:1',
                 'max:255'
             ],
-            'postsCount' => [
+            'byPostsCount' => [
                 'sometimes',
                 'required',
                 'bool'
             ],
-            'friendsCount' => [
+            'byFriendsCount' => [
                 'sometimes',
                 'required',
                 'bool'

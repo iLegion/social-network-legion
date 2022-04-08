@@ -32,13 +32,6 @@ class UserQueryBuilderAggregator
         return $this;
     }
 
-    public function byNotFriendsFor(User $user): static
-    {
-        $this->builder->whereNotIn('id', $user->friends()->pluck('friend_id'));
-
-        return $this;
-    }
-
     public function byName(string $value): static
     {
         $value = strtolower($value);

@@ -31,16 +31,12 @@ class PostService
             );
         }
 
-        if ($collection->get('byLikes')) {
-            $aggregator->byLikes();
+        if ($collection->get('byLikesCount')) {
+            $aggregator->byLikesCount($collection->get('byLikesCount'));
         }
 
-        if ($collection->get('byViews')) {
-            $aggregator->byViews();
-        }
-
-        if (!($collection->get('byLikes') || $collection->get('byViews'))) {
-            $aggregator->byLatest();
+        if ($collection->get('byViewsCount')) {
+            $aggregator->byViewsCount($collection->get('byViewsCount'));
         }
 
         return $aggregator->getBuilder();

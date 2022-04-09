@@ -40,23 +40,20 @@ class PostQueryBuilderAggregator
         return $this;
     }
 
-    public function byLikes(): static
+    public function byLikesCount(bool $value): static
     {
-        $this->builder->orderByDesc('likes_count');
+        $order = $value ? 'desc' : 'asc';
+
+        $this->builder->orderBy('likes_count', $order);
 
         return $this;
     }
 
-    public function byViews(): static
+    public function byViewsCount(bool $value): static
     {
-        $this->builder->orderByDesc('views_count');
+        $order = $value ? 'desc' : 'asc';
 
-        return $this;
-    }
-
-    public function byLatest(): static
-    {
-        $this->builder->latest();
+        $this->builder->orderBy('views_count', $order);
 
         return $this;
     }

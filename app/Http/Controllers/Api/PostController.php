@@ -36,6 +36,7 @@ class PostController extends Controller
         try {
             $posts = (new PostService())
                 ->get($collection, $this->user)
+                ->orderByDesc('id')
                 ->paginate(30);
 
             return new PostCollection($posts);

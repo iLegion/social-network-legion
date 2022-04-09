@@ -16,8 +16,8 @@ class PostRequest extends BaseRequest
 
     #[ArrayShape([
         'userId' => "array",
-        'byLikes' => "array",
-        'byViews' => "array"
+        'byLikesCount' => "string[]",
+        'byViewsCount' => "string[]"
     ])]
     public function rules(): array
     {
@@ -27,12 +27,12 @@ class PostRequest extends BaseRequest
                 'required',
                 Rule::exists(User::class, 'id')
             ],
-            'byLikes' => [
+            'byLikesCount' => [
                 'sometimes',
                 'required',
                 'bool'
             ],
-            'byViews' => [
+            'byViewsCount' => [
                 'sometimes',
                 'required',
                 'bool'
